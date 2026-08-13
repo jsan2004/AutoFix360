@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="C:\autoFix360\stylesheet.css" />
+    <style>
+        /* 🔹 Orders Section */
+h1 {
+    text-align: center;
+    margin: 20px 0;
+}
+
+#ordersContainer {
+    width: 80%;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.order {
+    background: white;
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.order h3 {
+    color: #004080;
+    margin-bottom: 10px;
+}
+
+.order p {
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+    </style>
+    <title>Book Repair - AutoFix360</title>
+  </head>
+  <body>
+    <!-- Navigation -->
+    <div class="top_nav">
+      <div class="container top_nav_container">
+        <div class="top_nav_wrapper">
+          <p class="tap_nav_p">
+            AutoFix360: One-Stop Solution For Your Vehicle
+          </p>
+        </div>
+      </div>
+    </div>
+    <nav class="nav">
+      <div class="container nav_container">
+        <a href="#" class="nav_logo">AutoFix360</a>
+        <ul class="nav_list">
+          <li class="nav_item"><a href="C:\autoFix360\AutoFix.html" class="nav_link">Home</a></li>
+          <li class="nav_item"><a href="C:\autoFix360\Book Reparir.html" class="nav_link">Book Repair</a></li>
+          <li class="nav_item"><a href="C:\autoFix360\Insurance.html" class="nav_link">Insurance</a></li>
+          <li class="nav_item" id="signupNav">
+            <a href="C:\autoFix360\signup.html" class="nav_link">Sign up</a>
+          </li>
+          <li class="nav_item">
+            <a href="" class="nav_link">Orders</a>
+          </li>
+          <li class="nav_item" id="myAccountNav" style="display: none;">
+            <div class="dropdown">
+              <button class="dropbtn">My Account</button>
+              <div class="dropdown-content">
+                <p id="userEmail"></p>
+                <button onclick="logout()">Logout</button>
+                <button onclick="signOut()" >Sign Out </button>
+              </div>
+            </div>
+          </li>
+        <script>
+          document.addEventListener("DOMContentLoaded", () => {
+            const user = JSON.parse(localStorage.getItem("user"));
+            
+            if (user) {
+                document.getElementById("signupNav").style.display = "none";
+                document.getElementById("myAccountNav").style.display = "block";
+                document.getElementById("userEmail").innerText = user.email;
+            } else {
+                document.getElementById("signupNav").style.display = "block";
+                document.getElementById("myAccountNav").style.display = "none";
+            }
+        });
+        // Logout function
+        function logout() {
+          localStorage.removeItem("user");
+          window.location.href = "C:/autoFix360/AutoFix.html"; // Redirect to homepage
+        }
+        // Sign Out (Delete Account from Database)
+        async function signOut() {
+          const user = JSON.parse(localStorage.getItem("user"));
+          if (!user) return;
+
+          const confirmDelete = confirm("Are you sure you want to delete your account? This action cannot be undone.");
+          if (!confirmDelete) return;
+
+         try {
+          const response = await fetch("http://localhost:5000/deleteUser", {
+          method: "DELETE",
+          headers: {
+           "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ email: user.email }),
+        });
+
+        const result = await response.json();
+        if (result.success) {
+        localStorage.removeItem("user"); // Remove from frontend storage
+        alert("Your account has been deleted.");
+        window.location.href = "C:/autoFix360/AutoFix.html"; // Redirect to homepage
+        } else {
+          alert("Error deleting account. Please try again.");
+        }
+        } catch (error) {
+            console.error("Error:", error);
+          alert("Something went wrong. Please try again.");
+          }
+        }
+        </script>
+        </ul>
+      </div>
+    </nav>
+    <h1>My Orders</h1>
+    <div id="ordersContainer"></div>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+    const user = JSON.parse(localStorage.getItem("user")); // Get logged-in user
+    let ordersContainer = document.getElementById("ordersContainer");
+
+    if (!user) {
+        ordersContainer.innerHTML = "<p>Please log in to view your orders.</p>";
+        return;
+    }
+
+    let orders = JSON.parse(localStorage.getItem("orders")) || [];
+    
+    // Filter orders based on the logged-in user's email
+    let userOrders = orders.filter(order => order.user_email === user.email);
+
+    if (userOrders.length === 0) {
+        ordersContainer.innerHTML = "<p>No orders found for your account.</p>";
+        return;
+    }
+
+    userOrders.forEach((order, index) => {
+        let orderHTML = `
+            <div class="order">
+                <h3>Booking #${index + 1}</h3>
+                <p><strong>Email:</strong> ${order.user_email}</p>
+                <p><strong>Vehicle Type:</strong> ${order.vehicle_type}</p>
+                <p><strong>Repair Type:</strong> ${order.repair_type}</p>
+                <p><strong>Estimated Price:</strong> ₹${order.estimated_price}</p>
+                <p><strong>Scheduled Date:</strong> ${order.schedule_date}</p>
+                <p><strong>Address:</strong> ${order.address_line1}, ${order.address_line2}, ${order.landmark}, ${order.pin_code}</p>
+                <p><strong>Comments:</strong> ${order.comments}</p>
+            </div>
+            <hr>
+        `;
+
+        ordersContainer.innerHTML += orderHTML;
+    });
+});
+
+// Logout function: Clears user session and order data
+function logout() {
+    localStorage.removeItem("user");
+    window.location.href = "C:/autoFix360/AutoFix.html"; // Redirect to homepage
+}
+
+</script>
+<!-- Footer -->
+<footer class="footer">
+    <div class="container footer_container">
+      <div class="footer_item">
+        <a href="#" class="footer_logo">Exclusive</a>
+        
+        <div class="footer_p">
+          For Maintenance And Repairs Of Your Vehical
+        </div>
+      </div>
+      <div class="footer_item">
+        <h3 class="footer_item_titl">Support</h3>
+        <ul class="footer_list">
+          <li class="li footer_list_item">AutoFix360, India</li>
+          <li class="li footer_list_item">autofix360@gmail.com</li>
+          <li class="li footer_list_item">+91 9856738819</li>
+          <li class="li footer_list_item">+91 8775643901</li>
+        </ul>
+      </div>
+      <div class="footer_item">
+        <h3 class="footer_item_titl">Accounts</h3>
+        <ul class="footer_list">
+          
+          <li class="li footer_list_item">Login / Register</li>
+          
+          <li class="li footer_list_item"><a href="C:\autoFix360\adminlogin.html" class="li footer_list_item">Admin</a></li>
+        </ul>
+      </div>
+      <div class="footer_item">
+        <h3 class="footer_item_titl">Support</h3>
+        <ul class="footer_list">
+          <li class="li footer_list_item">Privacy policy</li>
+          <li class="li footer_list_item">Terms of use</li>
+          
+          <li class="li footer_list_item">Contact</li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer_bottom">
+      <div class="container footer_bottom_container">
+        <p class="footer_copy">
+          Copyright Exclusive 2025. All right reserved
+        </p>
+      </div>
+    </div>
+  </footer>
+<script>src="C:\autoFix360\auth.js"</script>
+</body>
+</html>

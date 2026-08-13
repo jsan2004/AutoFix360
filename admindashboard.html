@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+        
+        body {
+            display: flex;
+        }
+
+        .sidebar {
+            width: 250px;
+            background: #2874f0;
+            color: white;
+            height: 100vh;
+            padding: 20px;
+            position: fixed;
+        }
+
+        .sidebar h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .sidebar ul {
+            list-style: none;
+        }
+
+        .sidebar ul li {
+            padding: 10px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .sidebar ul li:hover {
+            background: #1a5ac2;
+        }
+
+        .main-content {
+            margin-left: 250px;
+            padding: 20px;
+            width: 100%;
+        }
+
+        .dashboard-cards {
+            display: flex;
+            gap: 20px;
+        }
+
+        .card {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            flex: 1;
+            text-align: center;
+        }
+
+        .product-management, .schedule-management {
+            margin-top: 30px;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .add-product {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .image-preview {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-top: 10px;
+        }
+
+        .image-preview img {
+            width: 70px;
+            height: 70px;
+            object-fit: cover;
+            border-radius: 5px;
+            cursor: pointer;
+            border: 2px solid transparent;
+        }
+
+        .image-preview img.selected {
+            border: 2px solid #2874f0;
+        }
+
+        .product-list div {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px;
+            border-bottom: 1px solid #ccc;
+        }
+
+        .product-list img {
+            width: 80px;
+            height: 80px;
+            object-fit: cover;
+            border-radius: 5px;
+        }
+
+        .delete-btn {
+            background: red;
+            color: white;
+            border: none;
+            padding: 5px;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+        .logout-btn {
+            background: red;
+            color: white;
+            padding: 10px;
+            border: none;
+            cursor: pointer;
+            border-radius: 4px;
+            margin-top: 20px;
+            width: 100%;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        label {
+            display: block;
+            margin-top: 10px;
+        }
+        input, button {
+            padding: 10px;
+            margin-top: 5px;
+            width: 100%;
+        }
+        .product-list {
+            margin-top: 20px;
+        }
+        .product-item {
+            background: #f9f9f9;
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+        }
+        label {
+            display: block;
+            margin-top: 10px;
+        }
+        input, button, select {
+            padding: 10px;
+            margin-top: 5px;
+            width: 100%;
+        }
+        .product-list {
+            margin-top: 20px;
+        }
+        .product-item {
+            background: #f9f9f9;
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+        }
+        /* Schedule Management Container */
+.schedule-management {
+    display: none; /* Initially hidden */
+    width: 80%;
+    margin: 20px auto;
+    padding: 20px;
+    background: #f9f9f9;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Section Title */
+.schedule-management h2 {
+    text-align: center;
+    font-size: 24px;
+    color: #333;
+    margin-bottom: 15px;
+}
+
+/* Booking List Container */
+.schedule-list {
+    padding: 10px;
+}
+
+/* Individual Booking */
+.booking {
+    background: #fff;
+    padding: 15px;
+    margin-bottom: 15px;
+    border-left: 5px solid #007bff;
+    border-radius: 8px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease-in-out;
+}
+
+.booking:hover {
+    transform: scale(1.02);
+}
+
+/* Booking Headers */
+.booking h4 {
+    margin-bottom: 8px;
+    color: #007bff;
+    font-size: 18px;
+}
+
+/* Booking Details */
+.booking p {
+    margin: 5px 0;
+    color: #555;
+    font-size: 14px;
+}
+
+/* Highlight Labels */
+.booking p strong {
+    color: #222;
+}
+
+/* Horizontal Line for Separation */
+.booking hr {
+    margin-top: 10px;
+    border: none;
+    border-top: 1px solid #ddd;
+}
+
+    </style>
+</head>
+<body onload="checkLogin()">
+    <div class="sidebar">
+        <h2>Admin Panel</h2>
+        <ul>
+            <li onclick="showSection('dashboard')">Dashboard</li>
+            <li onclick="showSection('product-management')">Manage Products</li>
+            <li onclick="showSection('schedule-management')">Repair Schedules</li>
+        </ul>
+        <button class="logout-btn" onclick="logout()">Logout</button>
+    </div>
+
+    <div class="main-content">
+        <!-- Dashboard Section -->
+        <div id="dashboard">
+            <h2>Dashboard</h2>
+            <div class="dashboard-cards">
+                <div class="card"><h3>Total Users</h3><p>1,250</p></div>
+                <div class="card"><h3>Total Sales</h3><p>$15,000</p></div>
+                <div class="card"><h3>New Bookings</h3><p>20</p></div>
+            </div>
+        </div>
+
+        <!-- Product Management Section -->
+        <div id="product-management" class="product-management" style="display: none;">
+            <h2>Manage Products</h2>
+
+            <form id="productForm">
+                <label>Product Name:</label>
+                <input type="text" id="productName" required>
+        
+                <label>Price (₹):</label>
+                <input type="number" id="productPrice" required>
+        
+                <label>Select Section:</label>
+                <select id="productSection" required onchange="toggleDiscount()">
+                    <option value="flash_sale">Flash Sale</option>
+                    <option value="new_arrival">New Arrival</option>
+                </select>
+        
+                <div id="discountContainer">
+                    <label>Discount (%):</label>
+                    <input type="number" id="productDiscount">
+                </div>
+        
+                <label>Select Image:</label>
+                    <input type="file" id="productImage" accept="image/*" onchange="previewImage(event)">
+                    <div class="image-preview" id="imagePreview"></div>
+        
+                <label>Product Link:</label>
+                <input type="text" id="productLink" required>
+        
+                <button type="submit">Add Product</button>
+            </form>
+        
+            <div class="product-list">
+                <h3>Flash Sale Products</h3>
+                <div id="flashSaleList"></div>
+        
+                <h3>New Arrival Products</h3>
+                <div id="newArrivalList"></div>
+            </div>
+        
+            <script>
+                //database connection
+                document.getElementById("productForm").addEventListener("submit", async function (e) {
+    e.preventDefault();
+
+    const formData = new FormData();
+    formData.append("productName", document.getElementById("productName").value);
+    formData.append("price", document.getElementById("productPrice").value);
+    formData.append("section", document.getElementById("productSection").value);
+    formData.append("discount", document.getElementById("productDiscount").value);
+    formData.append("productLink", document.getElementById("productLink").value);
+    formData.append("productImage", document.getElementById("productImage").files[0]);
+
+    const response = await fetch("http://localhost:5000/addProduct", {
+        method: "POST",
+        
+        body: formData,
+    });
+
+    const result = await response.json();
+    alert(result.message);
+    fetchProducts(); // Refresh product list
+});
+
+async function fetchProducts() {
+    const response = await fetch("http://localhost:5000/getProducts");
+    const products = await response.json();
+
+    const flashSaleList = document.getElementById("flashSaleList");
+    const newArrivalList = document.getElementById("newArrivalList");
+    flashSaleList.innerHTML = "";
+    newArrivalList.innerHTML = "";
+
+    products.forEach(product => {
+        const productCard = `
+            <div class="product-card">
+                <img src="${product.ImagePath}" alt="${product.ProductName}">
+                <h4>${product.ProductName}</h4>
+                <p>Price: ₹${product.Price}</p>
+                ${product.Discount ? `<p>Discount: ${product.Discount}%</p>` : ""}
+                <a href="${product.ProductLink}" target="_blank">View Product</a>
+            </div>
+        `;
+
+        if (product.Section === "flash_sale") {
+            flashSaleList.innerHTML += productCard;
+        } else {
+            newArrivalList.innerHTML += productCard;
+        }
+    });
+}
+
+fetchProducts(); // Load products on page load
+
+document.addEventListener("DOMContentLoaded", () => {
+    displayProducts();
+});
+
+function toggleDiscount() {
+    let section = document.getElementById("productSection").value;
+    let discountContainer = document.getElementById("discountContainer");
+
+    if (section === "new_arrival") {
+        discountContainer.style.display = "none";
+        document.getElementById("productDiscount").value = ""; // Clear value
+    } else {
+        discountContainer.style.display = "block";
+    }
+}
+
+// Function to preview image before adding product
+function previewImage(event) {
+    let file = event.target.files[0];
+    if (file) {
+        let reader = new FileReader();
+        reader.onload = function () {
+            let previewContainer = document.getElementById("imagePreview");
+            previewContainer.innerHTML = `<img src="${reader.result}" alt="Product Image">`;
+            document.getElementById("productImage").dataset.imageData = reader.result; // Store Base64 image
+        };
+        reader.readAsDataURL(file);
+    }
+}
+
+// Function to add product to database
+document.getElementById("productForm").addEventListener("submit", async function(event) {
+    event.preventDefault();
+
+    let productData = {
+        productName: document.getElementById("productName").value,
+        productPrice: parseFloat(document.getElementById("productPrice").value),
+        productSection: document.getElementById("productSection").value,
+        productDiscount: document.getElementById("productSection").value === "flash_sale" ? parseInt(document.getElementById("productDiscount").value) || 0 : 0,
+        productImage: document.getElementById("productImage").dataset.imageData || "", // Base64 Image
+        productLink: document.getElementById("productLink").value
+    };
+
+    try {
+        let response = await fetch("http://localhost:5000/addProduct", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(productData)
+        });
+
+        let result = await response.json();
+        if (response.ok) {
+            alert("Product added successfully!");
+            document.getElementById("productForm").reset();
+            document.getElementById("imagePreview").innerHTML = ""; // Clear image preview
+            toggleDiscount(); // Reset discount visibility
+            displayProducts();
+        } else {
+            alert("Error: " + result.error);
+        }
+    } catch (error) {
+        console.error("Error adding product:", error);
+        alert("Error adding product. Check console for details.");
+    }
+});
+
+// Function to display products from the database
+async function displayProducts() {
+    let flashSaleList = document.getElementById("flashSaleList");
+    let newArrivalList = document.getElementById("newArrivalList");
+    
+    flashSaleList.innerHTML = "";
+    newArrivalList.innerHTML = "";
+
+    try {
+        let response = await fetch("http://localhost:5000/getProducts");
+        let products = await response.json();
+
+        products.forEach(product => {
+            let productItem = `
+                <div class="product-item">
+                    <p><strong>${product.ProductName}</strong> - ₹${product.Price} ${product.Section === "flash_sale" ? `(${product.Discount}% Off)` : ""}</p>
+                    <p>Section: <strong>${product.Section === "flash_sale" ? "Flash Sale" : "New Arrival"}</strong></p>
+                    <img src="${product.ImagePath}" alt="${product.ProductName}" style="width: 100px; height: 100px;">
+                    <button onclick="deleteProduct(${product.ProductID})">Delete</button>
+                </div>
+            `;
+
+            if (product.Section === "flash_sale") {
+                flashSaleList.innerHTML += productItem;
+            } else {
+                newArrivalList.innerHTML += productItem;
+            }
+        });
+    } catch (error) {
+        console.error("Error fetching products:", error);
+    }
+}
+
+// Function to delete a product
+async function deleteProduct(productId) {
+    try {
+        let response = await fetch(`http://localhost:5000/deleteProduct/${productId}`, {
+            method: "DELETE"
+        });
+
+        let result = await response.json();
+        if (response.ok) {
+            alert("Product deleted successfully!");
+            displayProducts();
+        } else {
+            alert("Error: " + result.error);
+        }
+    } catch (error) {
+        console.error("Error deleting product:", error);
+        alert("Error deleting product.");
+    }
+}
+
+
+            </script>
+
+        </div>
+
+        <!-- Repair Schedule Section -->
+        <div id="schedule-management" class="schedule-management" style="display: none;">
+            <h2>Scheduled Repairs</h2>
+            <div class="schedule-list" id="schedule-list">
+                <h3>Bookings:</h3>
+                <script>
+                    document.addEventListener("DOMContentLoaded", function () {
+    let scheduleManagement = document.getElementById("schedule-management");
+    let scheduleList = document.getElementById("schedule-list");
+
+    // Retrieve all orders from localStorage (or replace with API call if using backend)
+    let orders = JSON.parse(localStorage.getItem("orders")) || [];
+
+    if (orders.length === 0) {
+        scheduleManagement.style.display = "none"; // Hide section if no bookings
+        return;
+    } else {
+        scheduleManagement.style.display = "block"; // Show if bookings exist
+    }
+
+    // Clear existing content before adding new bookings
+    scheduleList.innerHTML = `<h3>Bookings:</h3>`;
+
+    // Loop through all orders and display them
+    orders.forEach((order, index) => {
+        let bookingHTML = `
+            <div class="booking">
+                <h4>Booking #${index + 1}</h4>
+                <p><strong>User Email:</strong> ${order.user_email}</p>
+                <p><strong>Vehicle Type:</strong> ${order.vehicle_type}</p>
+                <p><strong>Repair Type:</strong> ${order.repair_type}</p>
+                <p><strong>Estimated Price:</strong> ₹${order.estimated_price}</p>
+                <p><strong>Scheduled Date:</strong> ${order.schedule_date}</p>
+                <p><strong>Address:</strong> ${order.address_line1}, ${order.address_line2}, ${order.landmark}, ${order.pin_code}</p>
+                <p><strong>Comments:</strong> ${order.comments}</p>
+                <hr>
+            </div>
+        `;
+        scheduleList.innerHTML += bookingHTML;
+    });
+});
+
+                </script>
+            </div>
+        </div>
+    </div>
+
+    <script>
+         function checkLogin() {
+            if (sessionStorage.getItem("isLoggedIn") !== "true") {
+                window.location.href = "adminlogin.html"; // Redirect to login if not logged in
+            }
+        }
+
+        function logout() {
+            sessionStorage.removeItem("isLoggedIn"); // Clear session
+            window.location.href = "adminlogin.html"; // Redirect to login
+        }
+        function showSection(section) {
+            document.getElementById("dashboard").style.display = "none";
+            document.getElementById("product-management").style.display = "none";
+            document.getElementById("schedule-management").style.display = "none";
+            document.getElementById(section).style.display = "block";
+        }
+
+        
+    </script>
+</body>
+</html>

@@ -1,0 +1,600 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://unpkg.com/scrollreveal"></script>
+    <!-- Link Swiper's CSS -->
+    <link
+      rel="stylesheet"
+      href="C:\autoFix360\stylesheet.css" />
+    <link rel="stylesheet" href="C:\autoFix360\stylesheet.css" />
+    
+    <title>Home - Exclusive E-Commerce Website</title>
+  </head>
+  <body>
+    <div class="top_nav">
+      <div class="container top_nav_container">
+        <div class="top_nav_wrapper">
+          <p class="tap_nav_p">
+           AutoFix360: One-Stop Solution For Your Vehical
+          </p>
+        </div>
+      </div>
+    </div>
+    <nav class="nav">
+      <div class="container nav_container">
+        <a href="#" class="nav_logo">AutoFix360</a>
+        <ul class="nav_list">
+          <li class="nav_item"><a href="C:\autoFix360\AutoFix.html" class="nav_link">Home</a></li>
+          <li class="nav_item"><a href="C:\autoFix360\Book Reparir.html" class="nav_link">Book Repair</a></li>
+          <li class="nav_item"><a href="C:\autoFix360\Insurance.html" class="nav_link">Insurance</a></li>
+          <li class="nav_item" id="signupNav">
+            <a  href="C:\autoFix360\signup.html" class="nav_link">Sign up</a>
+          </li>
+          <li class="nav_item" id="orders">
+            <a href="C:\autoFix360\orders.html" class="nav_link">Orders</a>
+          </li>
+        
+        </ul>
+        <div class="nav_items">
+          <form action="#" class="nav_form">
+            <input
+              type="text"  id="searchInput"
+              class="nav_input"
+              placeholder="search here...." />
+            <img src="C:\Users\Deeksha Jadhav\Downloads\search.png" alt="search" class="nav_search"  id="searchButton" />
+            <script>
+              document.getElementById("searchInput").addEventListener("input", function () {
+                  let searchText = this.value.toLowerCase();
+                  let productCards = document.querySelectorAll(".product-details"); // Change selector as needed
+
+                productCards.forEach((card) => {
+                  let productName = card.querySelector(".product-title").innerText.toLowerCase(); // Change selector if needed
+                  if (productName.includes(searchText)) {
+                    card.style.display = "block"; // Show matching products
+                    } else {
+                      card.style.display = "none"; // Hide non-matching products
+                    }
+                });
+              });
+            </script>
+          </form>
+          
+          <a href="C:\autoFix360\cart.html">
+            <img src="C:\Users\Deeksha Jadhav\Downloads\cart.png" alt="" class="nav_cart" />
+          </a>
+          <li class="nav_item" id="myAccountNav" style="display: none;">
+            <div class="dropdown">
+              <button class="dropbtn">My Account</button>
+              <div class="dropdown-content">
+                <p id="userEmail"></p>
+                <button onclick="logout()">Logout</button>
+                <button onclick="signOut()" >Sign Out </button>
+              </div>
+            </div>
+          </li>
+        <script>
+          document.addEventListener("DOMContentLoaded", () => {
+            const user = JSON.parse(localStorage.getItem("user"));
+            
+            if (user) {
+                document.getElementById("signupNav").style.display = "none";
+                document.getElementById("myAccountNav").style.display = "block";
+                document.getElementById("userEmail").innerText = user.email;
+            } else {
+                document.getElementById("signupNav").style.display = "block";
+                document.getElementById("myAccountNav").style.display = "none";
+            }
+        });
+        // Logout function
+        function logout() {
+          localStorage.removeItem("user");
+          window.location.href = "C:/autoFix360/AutoFix.html"; // Redirect to homepage
+        }
+        // Sign Out (Delete Account from Database)
+        async function signOut() {
+          const user = JSON.parse(localStorage.getItem("user"));
+          if (!user) return;
+
+          const confirmDelete = confirm("Are you sure you want to delete your account? This action cannot be undone.");
+          if (!confirmDelete) return;
+
+         try {
+          const response = await fetch("http://localhost:5000/deleteUser", {
+          method: "DELETE",
+          headers: {
+           "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ email: user.email }),
+        });
+
+        const result = await response.json();
+        if (result.success) {
+        localStorage.removeItem("user"); // Remove from frontend storage
+        alert("Your account has been deleted.");
+        window.location.href = "C:/autoFix360/AutoFix.html"; // Redirect to homepage
+        } else {
+          alert("Error deleting account. Please try again.");
+        }
+        } catch (error) {
+            console.error("Error:", error);
+          alert("Something went wrong. Please try again.");
+          }
+        }
+        </script>
+          
+          
+          
+        </div>
+        <span class="hamburger">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke-width="1.5"
+            stroke="currentColor"
+            class="w-6 h-6">
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"/>
+          </svg>
+        </span>
+      </div>
+    </nav>
+    <nav class="mobile_nav mobile_nav_hide">
+      <ul class="mobile_nav_list">
+        <li class="mobile_nav_item">
+          <a href="C:\autoFix360\AutoFix.html" class="mobile_nav_link">Home</a>
+        </li>
+        <li class="mobile_nav_item">
+          <a href="C:\autoFix360\Book Reparir.html" class="mobile_nav_link">Book Repair</a>
+        </li>
+        <li class="mobile_nav_item">
+          <a href="#" class="mobile_nav_link">Insurance</a>
+        </li>
+        <li class="mobile_nav_item" id="signupNav">
+          <a href="C:\autoFix360\signup.html" class="mobile_nav_link">Sign Up</a>
+        </li>
+        <li class="mobile_nav_item" id="orders">
+          <a href="C:\autoFix360\orders.html" class="mobile_nav_link">Orders</a>
+        </li>
+        
+      </ul>
+    </nav>
+    <header>
+      <div class="slider-container">
+        <div class="slides">
+          <div class="slide"><img src="C:\autoFix360\Slider images\AutoFix 360 (3).png" alt="Offer 1"></div>
+          <div class="slide"><img src="C:\autoFix360\Slider images\AutoFix 360.png" alt="Offer 2"></div>
+          <div class="slide"><img src="C:\autoFix360\Slider images\AutoFix 360 (1).png" alt="Offer 3"></div>
+          <div class="slide"><img src="C:\autoFix360\Slider images\AutoFix 360 (2).png" alt="offer 4"></div>
+        </div>
+        <button class="prev">&#10094;</button>
+        <button class="next">&#10095;</button>
+        <div class="slider-wrapper">
+          <div class="slider-container">...</div>
+        </div>
+        
+      </div>
+      
+    </header>
+
+    <section class="section">
+      <div class="container">
+          <div class="section_category">
+              <p class="section_category_p">Today's</p>
+          </div>
+          <div class="section_header">
+              <h3 class="section_title">Flash Sale</h3>
+          </div>
+  
+          <!-- Dynamic Flash Sale Products -->
+          <div class="swiper mySwiper">
+              <div class="swiper-wrapper" id="flashSaleContainer">
+                  <!-- Flash Sale Products will be added here dynamically -->
+              </div>
+          </div>
+      </div>
+  </section>
+  
+  <script>
+      // Fetch products from the backend API
+    async function loadProducts() {
+        try {
+            const response = await fetch("http://localhost:5000/getProducts"); // Adjust API endpoint if needed
+            const products = await response.json();
+
+            let flashSaleContainer = document.getElementById("flashSaleContainer");
+            let newArrivalContainer = document.getElementById("newArrivalContainer");
+
+            flashSaleContainer.innerHTML = ""; // Clear existing Flash Sale content
+            newArrivalContainer.innerHTML = ""; // Clear existing New Arrivals content
+
+            if (!products || products.length === 0) {
+                flashSaleContainer.innerHTML = "<p>No flash sale products available</p>";
+                newArrivalContainer.innerHTML = "<p>No new arrival products available</p>";
+                return;
+            }
+
+            products.forEach((product) => {
+                let discountedPrice = product.Price - (product.Price * product.Discount / 100);
+                let productHTML = `
+                    <div class="swiper-slide">
+                        <div class="card">
+                            <div class="card_top">
+                                <a href="${product.ProductLink}" class="card_img">
+                                    <img src="${product.ImagePath}" alt="${product.ProductName}" class="card_img">
+                                </a>
+                                ${product.Section === "flash_sale" ? `<div class="card_tag">-${product.Discount}%</div>` : ""}
+                            </div>
+                            <div class="card_body">
+                                <li class="card_title">
+                                    <a href="${product.ProductLink}" class="card_title">${product.ProductName}</a>
+                                </li>
+                                <p class="card_price">
+                                    ${product.Section === "flash_sale" ? `<del>₹${product.Price}</del> ₹${discountedPrice.toFixed(2)}` : `₹${product.Price}`}
+                                </p>
+                                <button class="add-to-cart" onclick="addToCart(${product.ProductID})">Add to Cart</button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+
+                if (product.Section === "flash_sale") {
+                    flashSaleContainer.innerHTML += productHTML;
+                } else {
+                    newArrivalContainer.innerHTML += productHTML;
+                }
+            });
+
+        } catch (error) {
+            console.error("Error fetching products:", error);
+        }
+    }
+
+    // Function to add a product to the cart
+    function addToCart(index) {
+    let products = JSON.parse(localStorage.getItem("products")) || [];
+    let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+    let selectedProduct = products[index];
+
+    if (!selectedProduct) {
+        alert("Error: Product not found!");
+        return;
+    }
+
+    // Check if the product is already in the cart
+    let existingProduct = cart.find(item => item.ProductID === selectedProduct.ProductID);
+
+    if (existingProduct) {
+        existingProduct.quantity += 1; // Increment quantity if already in cart
+        alert("Product quantity updated in the cart!");
+    } else {
+        selectedProduct.quantity = 1; // Add quantity property for new products
+        cart.push(selectedProduct);
+        alert("Product added to cart!");
+    }
+
+    localStorage.setItem("cart", JSON.stringify(cart)); // Save updated cart
+}
+
+    document.addEventListener("DOMContentLoaded", loadProducts);
+  </script>
+          <div class="swiper-pagination"></div>
+        </div>
+        <div class="container_btn">
+          <a href="C:\autoFix360\Viewallp1.html" class="container_btn_a">VIEW ALL PRODUCTS</a>
+        </div>
+      </div>
+    </section>
+    <section class="section">
+      <div class="container">
+        <div class="section_category">
+          <p class="section_category_p">categories</p>
+        </div>
+        <div class="section_header">
+          <h3 class="section_title">Browse by Category</h3>
+        </div>
+        <div class="categories">
+          <div class="category">
+            <img src="./image/icons/camera.png" alt="" class="category_icon" />
+            <p class="category_name">Dashcams</p>
+          </div>
+          <div class="category">
+            <img
+              src="./image/icons/computer.png"
+              alt=""
+              class="category_icon" />
+            <p class="category_name">Screens</p>
+          </div>
+          <div class="category">
+            <img src="./image/icons/gaming.png" alt="" class="category_icon" />
+            <p class="category_name">Battries</p>
+          </div>
+          <div class="category">
+            <img
+              src="./image/icons/headphone.png"
+              alt=""
+              class="category_icon" />
+            <p class="category_name">Side Mirrors</p>
+          </div>
+          <div class="category">
+            <img src="./image/icons/phone.png" alt="" class="category_icon" />
+            <p class="category_name">Phone Holders</p>
+          </div>
+          <div class="category">
+            <img src="./image/icons/watch.png" alt="" class="category_icon" />
+            <p class="category_name">Tool Kit</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    
+    <section class="section">
+      <div class="container">
+        <div class="trending">
+          <div class="trending_content">
+            <p class="trending_p">categories</p>
+            <h2 class="trending_title">Vehical Servicing At Your DoorSteep</h2>
+            <a href="C:\autoFix360\Book Reparir.html" class="trending_btn">Book Now!</a>
+          </div>
+          <img src="./image/speaker.png" alt="" class="trending_img" />
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+          <div class="section_category">
+              <p class="section_category_p">All Products</p>
+          </div>
+          <div class="section_header">
+              <h3 class="section_title">Explore Our Collection</h3>
+          </div>
+  
+          <!-- Dynamic Product Listing -->
+          <div class="swiper mySwiper">
+              <div class="swiper-wrapper" id="productContainer">
+                  <!-- All products will be added here dynamically -->
+              </div>
+          </div>
+      </div>
+  </section>
+  
+  <script>
+      // Function to fetch and display all products
+      async function loadProducts() {
+          try {
+              const response = await fetch("http://localhost:5000/getProducts"); // Adjust API endpoint if needed
+              const products = await response.json();
+  
+              let productContainer = document.getElementById("productContainer");
+              productContainer.innerHTML = ""; // Clear existing content
+  
+              if (!products || products.length === 0) {
+                  productContainer.innerHTML = "<p>No products available</p>";
+                  return;
+              }
+  
+              products.forEach((product) => {
+                  let discountedPrice = product.Price - (product.Price * product.Discount / 100);
+                  let productHTML = `
+                      <div class="swiper-slide">
+                          <div class="card">
+                              <div class="card_top">
+                                  <a href="${product.ProductLink}" class="card_img">
+                                      <img src="${product.ImagePath}" alt="${product.ProductName}" class="card_img">
+                                  </a>
+                                  ${product.Section === "flash_sale" ? `<div class="card_tag">-${product.Discount}%</div>` : ""}
+                              </div>
+                              <div class="card_body">
+                                  <li class="card_title">
+                                      <a href="${product.ProductLink}" class="card_title">${product.ProductName}</a>
+                                  </li>
+                                  <p class="card_price">
+                                      ${product.Section === "flash_sale" ? `<del>₹${product.Price}</del> ₹${discountedPrice.toFixed(2)}` : `₹${product.Price}`}
+                                  </p>
+                                  <button class="add-to-cart" onclick="addToCart(${product.ProductID})">Add to Cart</button>
+                              </div>
+                          </div>
+                      </div>
+                  `;
+  
+                  productContainer.innerHTML += productHTML;
+              });
+  
+          } catch (error) {
+              console.error("Error fetching products:", error);
+          }
+      }
+  
+      // Function to add a product to the cart
+      function addToCart(productID) {
+          fetch(`http://localhost:5000/add-to-cart/${productID}`, { method: "POST" })
+              .then(response => response.json())
+              .then(data => {
+                  alert(data.message);
+              })
+              .catch(error => {
+                  console.error("Error adding product to cart:", error);
+              });
+      }
+  
+      document.addEventListener("DOMContentLoaded", loadProducts);
+  </script>
+  
+        <div class="container_btn">
+          <a href="#" class="container_btn_a">VIEW ALL PRODUCTS</a>
+        </div>
+      </div>
+    
+
+    <section class="section">
+      <div class="container">
+          <div class="section_category">
+              <p class="section_category_p">Featured</p>
+          </div>
+          <div class="section_header">
+              <h3 class="section_title">New Arrivals</h3>
+          </div>
+  
+          <!-- Dynamic New Arrival Products -->
+          <div class="swiper mySwiper">
+              <div class="swiper-wrapper" id="newArrivalContainer">
+                  <!-- New Arrival Products will be added here dynamically -->
+              </div>
+          </div>
+      </div>
+  </section>
+  
+  
+  <script>
+     // Fetch products from the backend API
+    async function loadProducts() {
+        try {
+            const response = await fetch("http://localhost:5000/getProducts"); // Adjust API endpoint if needed
+            const products = await response.json();
+
+            let flashSaleContainer = document.getElementById("flashSaleContainer");
+            let newArrivalContainer = document.getElementById("newArrivalContainer");
+
+            flashSaleContainer.innerHTML = ""; // Clear existing Flash Sale content
+            newArrivalContainer.innerHTML = ""; // Clear existing New Arrivals content
+
+            if (!products || products.length === 0) {
+                flashSaleContainer.innerHTML = "<p>No flash sale products available</p>";
+                newArrivalContainer.innerHTML = "<p>No new arrival products available</p>";
+                return;
+            }
+
+            products.forEach((product) => {
+                let discountedPrice = product.Price - (product.Price * product.Discount / 100);
+                let productHTML = `
+                    <div class="swiper-slide">
+                        <div class="card">
+                            <div class="card_top">
+                                <a href="${product.ProductLink}" class="card_img">
+                                    <img src="${product.ImagePath}" alt="${product.ProductName}" class="card_img">
+                                </a>
+                                ${product.Section === "flash_sale" ? `<div class="card_tag">-${product.Discount}%</div>` : ""}
+                            </div>
+                            <div class="card_body">
+                                <li class="card_title">
+                                    <a href="${product.ProductLink}" class="card_title">${product.ProductName}</a>
+                                </li>
+                                <p class="card_price">
+                                    ${product.Section === "flash_sale" ? `<del>₹${product.Price}</del> ₹${discountedPrice.toFixed(2)}` : `₹${product.Price}`}
+                                </p>
+                                <button class="add-to-cart" onclick="addToCart(${product.ProductID})">Add to Cart</button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+
+                if (product.Section === "flash_sale") {
+                    flashSaleContainer.innerHTML += productHTML;
+                } else {
+                    newArrivalContainer.innerHTML += productHTML;
+                }
+            });
+
+        } catch (error) {
+            console.error("Error fetching products:", error);
+        }
+    }
+
+    // Function to add a product to the cart
+    function addToCart(productID) {
+        fetch(`http://localhost:5000/add-to-cart/${productID}`, { method: "POST" })
+            .then(response => response.json())
+            .then(data => {
+                alert(data.message);
+            })
+            .catch(error => {
+                console.error("Error adding product to cart:", error);
+            });
+    }
+
+    document.addEventListener("DOMContentLoaded", loadProducts);
+  </script>
+  
+
+    <section class="section">
+      <div class="container services_container">
+        <div class="service">
+          <img src="./image/icons/service-1.png" alt="" class="service_img" />
+          <h3 class="service_title">FAST AND FREE DELIVERY</h3>
+          <p class="service_p">Lorem ipsum dolor sit amet consectetur.</p>
+        </div>
+        <div class="service">
+          <img src="./image/icons/service-2.png" alt="" class="service_img" />
+          <h3 class="service_title">24/7 SUPPORT</h3>
+          <p class="service_p">Lorem ipsum dolor sit amet consectetur.</p>
+        </div>
+        <div class="service">
+          <img src="./image/icons/service-3.png" alt="" class="service_img" />
+          <h3 class="service_title">MONEY BACK GUARANTY</h3>
+          <p class="service_p">Lorem ipsum dolor sit amet consectetur.</p>
+        </div>
+      </div>
+    </section>
+
+    <footer class="footer">
+      <div class="container footer_container">
+        <div class="footer_item">
+          <a href="#" class="footer_logo">Exclusive</a>
+          
+          <div class="footer_p">
+            For Maintenance And Repairs Of Your Vehical
+          </div>
+        </div>
+        <div class="footer_item">
+          <h3 class="footer_item_titl">Support</h3>
+          <ul class="footer_list">
+            <li class="li footer_list_item">AutoFix360, India</li>
+            <li class="li footer_list_item">autofix360@gmail.com</li>
+            <li class="li footer_list_item">+91 9856738819</li>
+            <li class="li footer_list_item">+91 8775643901</li>
+          </ul>
+        </div>
+        <div class="footer_item">
+          <h3 class="footer_item_titl">Accounts</h3>
+          <ul class="footer_list">
+            
+            <li class="li footer_list_item">Login / Register</li>
+            
+            <li class="li footer_list_item"><a href="C:\autoFix360\adminlogin.html" class="li footer_list_item">Admin</a></li>
+          </ul>
+        </div>
+        <div class="footer_item">
+          <h3 class="footer_item_titl">Support</h3>
+          <ul class="footer_list">
+            <li class="li footer_list_item">Privacy policy</li>
+            <li class="li footer_list_item">Terms of use</li>
+            
+            <li class="li footer_list_item">Contact</li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer_bottom">
+        <div class="container footer_bottom_container">
+          <p class="footer_copy">
+            Copyright Exclusive 2025. All right reserved
+          </p>
+        </div>
+      </div>
+    </footer>
+
+    <!-- Swiper JS -->
+    <script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
+    
+    <script src="C:\autoFix360\app.js"></script>
+    <script src="C:\autoFix360\wishlist1.js"></script>
+    <script src="C:\autoFix360\offerslide.js"></script>
+    <script>src="C:\autoFix360\auth.js"</script>
+  </body>
+</html>

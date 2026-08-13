@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://unpkg.com/scrollreveal"></script>
+    <!-- Link Swiper's CSS -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css" />
+    <link rel="stylesheet" href="./css/styles.css" />
+    <link rel="stylesheet" href="C:\autoFix360\stylesheet.css"/>
+    <title>E-Commerce Website</title>
+  </head>
+  <body>
+    <div class="top_nav">
+      <div class="container top_nav_container">
+        <div class="top_nav_wrapper">
+          <p class="tap_nav_p">
+            AutoFix360: One-Stop Solution For Your Vehical
+          </p>
+        </div>
+      </div>
+    </div>
+    <nav class="nav">
+      <div class="container nav_container">
+        <a href="#" class="nav_logo">AutoFix360</a>
+        <ul class="nav_list">
+          <li class="nav_item"><a href="C:\autoFix360\AutoFix.html" class="nav_link">Home</a></li>
+          <li class="nav_item"><a href="C:\autoFix360\Book Reparir.html" class="nav_link">Book Repair</a></li>
+          <li class="nav_item"><a href="C:\autoFix360\Insurance.html" class="nav_link">Insurance</a></li>
+          <li class="nav_item">
+            <a href="C:\autoFix360\signup.html" class="nav_link">Sign Up</a>
+          </li>
+        </ul>
+        <div class="nav_items">
+          <form action="#" class="nav_form">
+            <input
+              type="text"
+              class="nav_input"
+              placeholder="search item...." />
+            <img src="C:\Users\Deeksha Jadhav\Downloads\search.png" alt="" class="nav_search" />
+          </form>
+          <img src="C:\Users\Deeksha Jadhav\Downloads\heart.png" alt="" class="nav_heart" />
+          <a href="C:\autoFix360\cart.html">
+            <img src="C:\Users\Deeksha Jadhav\Downloads\cart.png" alt="" class="nav_cart" />
+          </a>
+        </div>
+        <span class="hamburger">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke-width="1.5"
+            stroke="currentColor"
+            class="w-6 h-6">
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+          </svg>
+        </span>
+      </div>
+    </nav>
+    <nav class="mobile_nav mobile_nav_hide">
+      <ul class="mobile_nav_list">
+        <li class="mobile_nav_item">
+          <a href="C:\autoFix360\AutoFix.html" class="mobile_nav_link">Home</a>
+        </li>
+        <li class="mobile_nav_item">
+          <a href="C:\autoFix360\Book Reparir.html" class="mobile_nav_link">Book Repair</a>
+        </li>
+        <li class="mobile_nav_item">
+          <a href="C:\autoFix360\Insurance.html" class="mobile_nav_link">Insurance</a>
+        </li>
+        <li class="mobile_nav_item">
+          <a href="C:\autoFix360\signup.html" class="mobile_nav_link">Sign Up</a>
+        </li>
+        <li class="mobile_nav_item">
+          <a href="C:\autoFix360\cart.html" class="mobile_nav_link">Cart</a>
+        </li>
+      </ul>
+    </nav>
+
+    <section class="section">
+      <div class="auth_container">
+        <div class="auth_img">
+          <img src="C:\Users\Deeksha Jadhav\Downloads\login-concept.jpg" alt="" class="auth_image" />
+        </div>
+        <div class="auth_content">
+          <form id="loginForm" class="auth_form">
+            <h2 class="form_title">Login to your account</h2>
+            <p class="auth_p">Enter Your Details Below</p>
+    
+            <div class="form_group">
+              <input type="email" id="email" placeholder="Email" class="form_input" required />
+            </div>
+    
+            <div class="form_group form_pass">
+              <input type="password" id="password" placeholder="Password" class="form_input" required />
+            </div>
+    
+            <div class="form_group">
+              <button type="submit" class="form_btn">Login</button>
+            </div>
+    
+            <div class="form_group">
+              <span>Don't Have An Account?
+                <a href="C:/autoFix360/signup.html" class="form_auth_link">Register</a>
+              </span>
+            </div>
+          </form>
+          <p id="message"></p>
+        </div>
+      </div>
+    </section>
+    <script>
+     document.getElementById("loginForm").addEventListener("submit", async function (event) {
+    event.preventDefault();
+
+    const email = document.getElementById("email").value;
+    const password = document.getElementById("password").value;
+
+    try {
+        const response = await fetch("http://localhost:5000/login", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ email, password }),
+        });
+
+        const data = await response.json();
+
+        if (response.ok) {
+            localStorage.setItem("user", JSON.stringify(data.user));
+            alert("Login Successful!");
+            window.location.href = document.referrer || "C:/autoFix360/AutoFix.html"; // Redirect to last visited page
+        } else {
+            alert(data.message);
+        }
+    } catch (error) {
+        console.error("Login error:", error);
+        alert("Error logging in. Please try again.");
+    }
+});
+
+
+      </script>
+      
+
+      <footer class="footer">
+        <div class="container footer_container">
+          <div class="footer_item">
+            <a href="#" class="footer_logo">Exclusive</a>
+            
+            <div class="footer_p">
+              For Maintenance And Repairs Of Your Vehical
+            </div>
+          </div>
+          <div class="footer_item">
+            <h3 class="footer_item_titl">Support</h3>
+            <ul class="footer_list">
+              <li class="li footer_list_item">AutoFix360, India</li>
+              <li class="li footer_list_item">autofix360@gmail.com</li>
+              <li class="li footer_list_item">+91 9856738819</li>
+              <li class="li footer_list_item">+91 8775643901</li>
+            </ul>
+          </div>
+          <div class="footer_item">
+            <h3 class="footer_item_titl">Accounts</h3>
+            <ul class="footer_list">
+              
+              <li class="li footer_list_item">Login / Register</li>
+              
+              <li class="li footer_list_item"><a href="C:\autoFix360\adminlogin.html" class="li footer_list_item">Admin</a></li>
+            </ul>
+          </div>
+          <div class="footer_item">
+            <h3 class="footer_item_titl">Support</h3>
+            <ul class="footer_list">
+              <li class="li footer_list_item">Privacy policy</li>
+              <li class="li footer_list_item">Terms of use</li>
+              
+              <li class="li footer_list_item">Contact</li>
+            </ul>
+          </div>
+        </div>
+        <div class="footer_bottom">
+          <div class="container footer_bottom_container">
+            <p class="footer_copy">
+              Copyright Exclusive 2025. All right reserved
+            </p>
+          </div>
+        </div>
+      </footer>
+
+    Swiper JS
+    <script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
+    <script src="C:\autoFix360\app.js"></script>
+    <script>src="C:\autoFix360\Backend\server.js"</script>
+    
+  </body> -->
+</html>

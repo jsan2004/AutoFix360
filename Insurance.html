@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="C:\autoFix360\stylesheet.css" />
+    <style>
+    
+    .insurance-logo {
+        width: 200px; /* Adjust size as needed */
+        height: auto;
+    }</style>
+    <title>Insurance Comparison - AutoFix360</title>
+</head>
+<body>
+    <!-- Navigation -->
+    <div class="top_nav">
+        <div class="container top_nav_container">
+            <div class="top_nav_wrapper">
+                <p class="tap_nav_p">
+                    AutoFix360: One-Stop Solution For Your Vehicle
+                </p>
+            </div>
+        </div>
+    </div>
+    <nav class="nav">
+        <div class="container nav_container">
+            <a href="#" class="nav_logo">AutoFix360</a>
+            <ul class="nav_list">
+                <li class="nav_item"><a href="C:\autoFix360\AutoFix.html" class="nav_link">Home</a></li>
+                <li class="nav_item"><a href="C:\autoFix360\Book Reparir.html" class="nav_link">Book Repair</a></li>
+                <li class="nav_item"><a href="C:\autoFix360\Insurance.html" class="nav_link">Insurance</a></li>
+                <li class="nav_item" id="signupNav">
+                    <a href="C:\autoFix360\signup.html" class="nav_link">Sign up</a>
+                </li>
+                <li class="nav_item" id="orders">
+                    <a href="C:\autoFix360\orders.html" class="nav_link">Orders</a>
+                  </li>
+                <li class="nav_item" id="myAccountNav" style="display: none;">
+                    <div class="dropdown">
+                      <button class="dropbtn">My Account</button>
+                      <div class="dropdown-content">
+                        <p id="userEmail"></p>
+                        <button onclick="logout()">Logout</button>
+                        <button onclick="signOut()" >Sign Out </button>
+                      </div>
+                    </div>
+                  </li>
+                <script>
+                  document.addEventListener("DOMContentLoaded", () => {
+                    const user = JSON.parse(localStorage.getItem("user"));
+                    
+                    if (user) {
+                        document.getElementById("signupNav").style.display = "none";
+                        document.getElementById("myAccountNav").style.display = "block";
+                        document.getElementById("userEmail").innerText = user.email;
+                    } else {
+                        document.getElementById("signupNav").style.display = "block";
+                        document.getElementById("myAccountNav").style.display = "none";
+                    }
+                });
+                // Logout function
+                function logout() {
+                  localStorage.removeItem("user");
+                  window.location.href = "C:/autoFix360/AutoFix.html"; // Redirect to homepage
+                }
+                // Sign Out (Delete Account from Database)
+                async function signOut() {
+                  const user = JSON.parse(localStorage.getItem("user"));
+                  if (!user) return;
+        
+                  const confirmDelete = confirm("Are you sure you want to delete your account? This action cannot be undone.");
+                  if (!confirmDelete) return;
+        
+                 try {
+                  const response = await fetch("http://localhost:5000/deleteUser", {
+                  method: "DELETE",
+                  headers: {
+                   "Content-Type": "application/json",
+                  },
+                  body: JSON.stringify({ email: user.email }),
+                });
+        
+                const result = await response.json();
+                if (result.success) {
+                localStorage.removeItem("user"); // Remove from frontend storage
+                alert("Your account has been deleted.");
+                window.location.href = "C:/autoFix360/AutoFix.html"; // Redirect to homepage
+                } else {
+                  alert("Error deleting account. Please try again.");
+                }
+                } catch (error) {
+                    console.error("Error:", error);
+                  alert("Something went wrong. Please try again.");
+                  }
+                }
+                </script>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Insurance Comparison Section -->
+    <div class="container">
+        <h2>Insurance Plans</h2>
+        <div class="insurance-grid">
+            <div class="insurance-card">
+                <div class="insurance-header">
+                    <img src="C:\autoFix360\Slider images\download.jpg" alt="ICICI Logo" class="insurance-logo">
+                    <h3>ICICI Lombard</h3>
+                </div>
+                
+                <p>Prices starting at: ₹2094/year</p>
+                <p>Doorstep Cashless Repairs.</p>
+                <p>₹15 lakh Personal Accident Cover</p>
+                <p>Upto 50% off with NCB
+                </p>
+                <a href="https://www.icicilombard.com/motor-insurance/car-insurance?source=nav&opt=car" target="_blank" class="btn">View More</a>
+            </div>
+            <div class="insurance-card">
+                <div class="insurance-header">
+                    <img src="C:\autoFix360\Slider images\download.png" alt="TATA AIG Logo" class="insurance-logo">
+                    <h3>TATA AIG</h3>
+                </div>
+                <p>Prices starting at: ₹2072/year</p>
+                <p>98% Claim Settlement Ratio</p>
+                <p>Zero Depreciation Cover</p>
+                <p>24x7 Assistance</p>
+                <a href="https://www.tataaig.com/buy-online/motor-insurance/car-insurance?utm_source=google&utm_medium=cpc&utm_campaign={4W_Generic_TopPerforming_Mumbai_Tier1_BPE}-vehicle%20insurance-21059093034-160241034715-kwd-10595571&utm_content=692339511972&gad_source=1&gclid=CjwKCAiAzvC9BhADEiwAEhtlN--YPxkyftbHvTkPxS8cIrzpogPoVXVHaG32UONYIFsHHKIu5pLHFhoCIYIQAvD_BwE" target="_blank" class="btn">View More</a>
+            </div>
+            <div class="insurance-card">
+                <div class="insurance-header">
+                    <img src="C:\autoFix360\Slider images\download (1).jpg" alt="PolicyBazar Logo" class="insurance-logo">
+                    <h3>PolicyBazar</h3>
+                </div>
+                <p>Prices starting at: ₹1.3/day</p>
+                <p>Bike Insurance</p>
+                <p>Zero Documentation</p>
+                <p>24x7 claim assistance</p>
+                <a href="https://www.policybazaar.com/motor-insurance/two-wheeler-insurance/" target="_blank" class="btn">View More</a>
+            </div>
+            <div class="insurance-card">
+                <div class="insurance-header">
+                    <img src="C:\autoFix360\Slider images\images.jpg" alt="Acko Logo" class="insurance-logo">
+                    <h3>Acko</h3>
+                </div>
+                <p>Price starting at: ₹457</p>
+                <p>Bike Insurance</p>
+                <p>Third-party Bike Insurance Policy</p>
+                <p>Standalone Own Damage Insurance Policy</p>
+                <a href="https://www.acko.com/two-wheeler-insurance/" target="_blank" class="btn">View More</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container footer_container">
+          <div class="footer_item">
+            <a href="#" class="footer_logo">Exclusive</a>
+            
+            <div class="footer_p">
+                For Maintenance And Repairs Of Your Vehical
+            </div>
+          </div>
+          <div class="footer_item">
+            <h3 class="footer_item_titl">Support</h3>
+            <ul class="footer_list">
+              <li class="li footer_list_item">AutoFix360, India</li>
+              <li class="li footer_list_item">autofix360@gmail.com</li>
+              <li class="li footer_list_item">+91 9856738819</li>
+              <li class="li footer_list_item">+91 8775643901</li>
+            </ul>
+          </div>
+          <div class="footer_item">
+            <h3 class="footer_item_titl">Accounts</h3>
+            <ul class="footer_list">
+              
+              <li class="li footer_list_item">Login / Register</li>
+              
+              <li class="li footer_list_item"><a href="C:\autoFix360\adminlogin.html" class="li footer_list_item">Admin</a></li>
+            </ul>
+          </div>
+          <div class="footer_item">
+            <h3 class="footer_item_titl">Support</h3>
+            <ul class="footer_list">
+              <li class="li footer_list_item">Privacy policy</li>
+              <li class="li footer_list_item">Terms of use</li>
+              
+              <li class="li footer_list_item">Contact</li>
+            </ul>
+          </div>
+        </div>
+        <div class="footer_bottom">
+          <div class="container footer_bottom_container">
+            <p class="footer_copy">
+              Copyright Exclusive 2025. All right reserved
+            </p>
+          </div>
+        </div>
+      </footer>
+    <script>src="C:\autoFix360\auth.js"</script>
+    <script>src="C:\autoFix360\app.js"</script>
+    
+</body>
+</html>
+<script>src="C:\autoFix360\session.js"</script>
+
